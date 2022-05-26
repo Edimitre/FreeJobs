@@ -1,14 +1,8 @@
 package com.edikorce.FreeJobs.controller;
 
 
-
-import com.edikorce.FreeJobs.model.JwtRequest;
-import com.edikorce.FreeJobs.model.JwtResponse;
-import com.edikorce.FreeJobs.model.Role;
-import com.edikorce.FreeJobs.model.User;
-import com.edikorce.FreeJobs.service.JwtService;
-import com.edikorce.FreeJobs.service.RoleService;
-import com.edikorce.FreeJobs.service.UserService;
+import com.edikorce.FreeJobs.model.*;
+import com.edikorce.FreeJobs.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +31,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JobService jobService;
+
+    @Autowired
+    private ItemService itemService;
     @PostMapping("/authenticate")
     public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 
@@ -46,16 +44,9 @@ public class UserController {
 
 
     @GetMapping("/getProfile")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public User getUserByName(@RequestParam(value = "userName") String userName) throws Exception {
         return userService.getUserByUserName(userName);
-    }
-
-    @GetMapping("/roleAdmin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<User> forAdmin(){
-
-       return userService.getAllUsers();
     }
 
     @PostMapping("/register")
@@ -84,7 +75,13 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(imgFile,user1),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUserById(@RequestParam(value = "id") Long id){
 
+        userService.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }

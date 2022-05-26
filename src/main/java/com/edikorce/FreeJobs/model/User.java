@@ -1,5 +1,7 @@
 package com.edikorce.FreeJobs.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,17 +9,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Table(name = "user_table")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,9 +27,10 @@ public class User implements Serializable {
 
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String userName;
 
+    @Column(unique = true,nullable = false)
     private String userPassword;
 
     @Lob
@@ -47,9 +48,14 @@ public class User implements Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
-    private boolean isActive;
 
-    private boolean isLocked;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL ,fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Job> jobList = new ArrayList<>();
+
+    private boolean active;
+
+    private boolean locked;
 
 
 }
