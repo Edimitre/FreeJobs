@@ -48,9 +48,14 @@ public class User implements Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL ,fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference(value = "itemList")
+    private List<Item> itemList = new ArrayList<>();
+
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL ,fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "jobList")
     private List<Job> jobList = new ArrayList<>();
 
     private boolean active;

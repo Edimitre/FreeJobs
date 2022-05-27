@@ -5,7 +5,6 @@ import com.edikorce.FreeJobs.model.JwtRequest;
 import com.edikorce.FreeJobs.model.JwtResponse;
 import com.edikorce.FreeJobs.model.User;
 import com.edikorce.FreeJobs.repository.UserRepo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

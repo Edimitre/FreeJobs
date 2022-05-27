@@ -1,7 +1,10 @@
 package com.edikorce.FreeJobs.controller;
 
 
-import com.edikorce.FreeJobs.model.*;
+import com.edikorce.FreeJobs.model.JwtRequest;
+import com.edikorce.FreeJobs.model.JwtResponse;
+import com.edikorce.FreeJobs.model.Role;
+import com.edikorce.FreeJobs.model.User;
 import com.edikorce.FreeJobs.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @RestController

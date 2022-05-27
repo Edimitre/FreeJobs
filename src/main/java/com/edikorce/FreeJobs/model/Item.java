@@ -1,12 +1,10 @@
 package com.edikorce.FreeJobs.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -31,8 +29,14 @@ public class Item {
     private double value;
 
     private String description;
-    @ManyToOne( cascade = {CascadeType.MERGE,CascadeType.DETACH},fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "itemList")
+    private User user;
+
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REFRESH},fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
-    @JsonBackReference
+    @JsonBackReference(value = "items")
     private Job job;
 }

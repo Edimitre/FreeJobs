@@ -32,6 +32,7 @@ public class UserService {
             user.getJobList().forEach(job -> {
                 job.getItemList().forEach(item -> {
                     item.setJob(job);
+                    item.setUser(user);
                 });
             });
         }

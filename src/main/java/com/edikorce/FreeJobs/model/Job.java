@@ -6,7 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,21 +32,17 @@ public class Job implements Serializable {
     private JobType jobType;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "jobs_items",
-            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id")
-    )
+    @OneToMany(mappedBy = "job", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH} ,fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "items")
     private List<Item> itemList = new ArrayList<>();
 
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date announcedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne( cascade = {CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "jobList")
     private User user;
 
     private double value;

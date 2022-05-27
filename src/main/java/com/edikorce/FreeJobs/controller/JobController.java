@@ -5,7 +5,6 @@ import com.edikorce.FreeJobs.model.Job;
 import com.edikorce.FreeJobs.service.ItemService;
 import com.edikorce.FreeJobs.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
