@@ -32,7 +32,7 @@ public class Job implements Serializable {
     private JobType jobType;
 
 
-    @OneToMany(mappedBy = "job", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH} ,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "job", cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JsonManagedReference(value = "items")
     private List<Item> itemList = new ArrayList<>();
 

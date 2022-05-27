@@ -12,7 +12,7 @@ import java.util.List;
 public interface ItemRepo extends JpaRepository<Item,Long> {
 
 
-    @Query("SELECT i FROM Item i WHERE i.job.user.id LIKE ?1")
+    @Query("SELECT i FROM Item i WHERE i.user.id LIKE ?1")
     List<Item> getAllItemsByUserId(Long id);
 
 }
